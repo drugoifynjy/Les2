@@ -179,13 +179,72 @@ class OrganizationAddress(Address, models.Model):
         verbose_name = 'Адрес организации'
         verbose_name_plural = 'Адреса организаций'
 
-#
-# class Forestry(models.Model):
-#     organization = models.ForeignKey('Organization', on_delete=models.CASCADE, null=True)
-#     title = models.CharField(max_length=255, null=True)
-#     validity_period = models.ForeignKey('ValidityPeriod', on_delete=models.CASCADE, null=True)
-#
-#
-# class DepartmentAddress(Address, models.Model):
-#     forestry = models.ForeignKey('Forestry', on_delete=models.CASCADE, null=True)
-#     validity_period = models.ForeignKey('ValidityPeriod', on_delete=models.CASCADE, null=True)
+
+class ForestryValidityPeriod(ValidityPeriod):
+    pass
+
+    def __str__(self):
+        if self.end_date:
+            a = 'действующие с ' + str(self.start_date.__str__()) + ' по ' + (self.end_date.__str__())
+        else:
+            a = 'действуют с ' + str(self.start_date.__str__())
+
+        return a
+
+    class Meta:
+        ordering = ['id']
+        verbose_name = 'Период действия отдела(лесничества)'
+        verbose_name_plural = 'Периоды действия отделов (лесничеств)'
+
+
+class Forestry(models.Model):
+    organization = models.ForeignKey('Organization', on_delete=models.CASCADE, null=True,
+                                     verbose_name='Организация')
+    title = models.CharField(max_length=255, null=True, verbose_name='Нзвание отдела (лесничества)')
+    validity_period = models.ForeignKey(ForestryValidityPeriod, on_delete=models.CASCADE, null=True,
+                                        verbose_name='Период действия отдела (лесничества) организации')
+
+    def __str__(self):
+        a = str(self.organization.__str__()) + ', отдел: ' + str(self.title.__str__()) + ' лесничество ' +\
+            str(self.validity_period.__str__())
+
+        return a
+
+    class Meta:
+        ordering = ['id']
+        verbose_name = 'Отдел (лесничество)'
+        verbose_name_plural = 'Отделы (лесничества)'
+
+
+class DepartmentAddressValidityPeriod(ValidityPeriod):
+    pass
+
+    def __str__(self):
+        if self.end_date:
+            a = 'действующие с ' + str(self.start_date.__str__()) + ' по ' + (self.end_date.__str__())
+        else:
+            a = 'действуют с ' + str(self.start_date.__str__())
+
+        return a
+
+    class Meta:
+        ordering = ['id']
+        verbose_name = 'Период действия адреса отдела(лесничества)'
+        verbose_name_plural = 'Периоды действия адресов отделов (лесничеств)'
+
+
+class DepartmentAddress(Address, models.Model):
+    forestry = models.ForeignKey('Forestry', on_delete=models.CASCADE, null=True, verbose_name='Отдел (лесничество)')
+    validity_period = models.ForeignKey(DepartmentAddressValidityPeriod, on_delete=models.CASCADE, null=True,
+                                        verbose_name='Период действия адреса отдела (лесничества) организации')
+
+    def __str__(self):
+        a = str(self.forestry.__str__()) + ' адрес: ' + str(super().__str__()) + '  ' +\
+            str(self.validity_period.__str__())
+
+        return a
+
+    class Meta:
+        ordering = ['id']
+        verbose_name = 'Адрес отдела (лесничества) организации'
+        verbose_name_plural = 'Адреса отделов (лесничеств) организаций'
