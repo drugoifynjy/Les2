@@ -53,5 +53,5 @@ class Forestry(models.Model):
     validity_period = models.ForeignKey('ValidityPeriod', on_delete=models.CASCADE, null=True)
 
 
-class DepartmentAddress(models.Model):
+class DepartmentAddress(Address, models.Model):
     forestry = models.ForeignKey('Forestry', on_delete=models.CASCADE, null=True)
