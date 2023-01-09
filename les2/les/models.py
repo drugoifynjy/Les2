@@ -16,7 +16,7 @@ class TypeOfCabin(models.Model):
 
 
 class TreeSpecies(models.Model):
-    tree_species = models.CharField(null=True)
+    tree_species = models.CharField(max_length=255, null=True)
 
 
 class Organization(models.Model):
@@ -40,6 +40,11 @@ class BankDetail(models.Model):
     payment_account = models.IntegerField(null=True)
     corset = models.IntegerField(null=True)
     bik = models.IntegerField(null=True)
+    validity_period = models.ForeignKey('ValidityPeriod', on_delete=models.CASCADE, null=True)
+
+
+class OrganizationAddress(Address, models.Model):
+    organization = models.ForeignKey('Organization', on_delete=models.CASCADE, null=True)
     validity_period = models.ForeignKey('ValidityPeriod', on_delete=models.CASCADE, null=True)
 
 
