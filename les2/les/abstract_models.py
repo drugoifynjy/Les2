@@ -1,6 +1,19 @@
 from django.db import models
 
 
+class ValidityPeriod(models.Model):
+    start_date = models.DateField(null=True)
+    end_date = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        a = str(self.start_date.__str__()) + ' ' + str(self.end_date.__str__())
+
+        return a
+
+    class Meta:
+        abstract = True
+
+
 class LocalityType(models.Model):
     """Тип населенного пункта: locality_type = ['деревня', 'село', 'город', 'посёлок']"""
     locality_type = models.CharField(max_length=20, blank=True, null=True, verbose_name='Тип населенноо пункта', default='село')
@@ -30,23 +43,40 @@ class Address(models.Model):
     apartment_number = models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='Квартира')
 
     def __str__(self):
-        if self.apartment_number:
-            a = str(self.postcode.__str__()) + ' ' + \
-                str(self.region.__str__()) + ' область ' + \
-                str(self.district.__str__()) + ' район ' + \
-                str(self.locality_type.locality_type_sokr) + \
-                str(self.locality.__str__()) + ' ул. ' + \
-                str(self.street.__str__()) + ' д. ' + \
-                str(self.house_number.__str__()) + ' кв. ' + \
-                str(self.apartment_number.__str__())
+        if self.district:
+            if self.apartment_number:
+                a = str(self.postcode.__str__()) + ' ' + \
+                    str(self.region.__str__()) + ' область ' + \
+                    str(self.district.__str__()) + ' район ' + \
+                    str(self.locality_type.locality_type_sokr) + \
+                    str(self.locality.__str__()) + ' ул. ' + \
+                    str(self.street.__str__()) + ' д. ' + \
+                    str(self.house_number.__str__()) + ' кв. ' + \
+                    str(self.apartment_number.__str__())
+            else:
+                a = str(self.postcode.__str__()) + ' ' + \
+                    str(self.region.__str__()) + ' область ' + \
+                    str(self.district.__str__()) + ' район ' + \
+                    str(self.locality_type) + \
+                    str(self.locality.__str__()) + ' ул. ' + \
+                    str(self.street.__str__()) + ' д. ' + \
+                    str(self.house_number.__str__())
         else:
-            a = str(self.postcode.__str__()) + ' ' + \
-                str(self.region.__str__()) + ' область ' + \
-                str(self.district.__str__()) + ' район ' + \
-                str(self.locality_type) + \
-                str(self.locality.__str__()) + ' ул. ' + \
-                str(self.street.__str__()) + ' д. ' + \
-                str(self.house_number.__str__())
+            if self.apartment_number:
+                a = str(self.postcode.__str__()) + ' ' + \
+                    str(self.region.__str__()) + ' область ' + \
+                    str(self.locality_type.locality_type_sokr) + \
+                    str(self.locality.__str__()) + ' ул. ' + \
+                    str(self.street.__str__()) + ' д. ' + \
+                    str(self.house_number.__str__()) + ' кв. ' + \
+                    str(self.apartment_number.__str__())
+            else:
+                a = str(self.postcode.__str__()) + ' ' + \
+                    str(self.region.__str__()) + ' область ' + \
+                    str(self.locality_type.locality_type_sokr) + \
+                    str(self.locality.__str__()) + ' ул. ' + \
+                    str(self.street.__str__()) + ' д. ' + \
+                    str(self.house_number.__str__())
         return a
 
     class Meta:
