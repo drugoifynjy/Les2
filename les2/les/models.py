@@ -248,3 +248,53 @@ class DepartmentAddress(Address, models.Model):
         ordering = ['id']
         verbose_name = 'Адрес отдела (лесничества) организации'
         verbose_name_plural = 'Адреса отделов (лесничеств) организаций'
+
+
+class RepresentativeOfTheDepartmentAtValidityPeriod(ValidityPeriod):
+    pass
+
+    def __str__(self):
+        if self.end_date:
+            a = 'действующие с ' + str(self.start_date.__str__()) + ' по ' + (self.end_date.__str__())
+        else:
+            a = 'действуют с ' + str(self.start_date.__str__())
+
+        return a
+
+    class Meta:
+        ordering = ['id']
+        verbose_name = 'Период действия представителя отдела по адресу'
+        verbose_name_plural = 'Периоды действия представителей отделов по адресу'
+
+
+class RepresentativeOfTheDepartmentAt(PersonAbstr, models.Model):
+    department_address = models.ForeignKey(DepartmentAddress, on_delete=models.CASCADE, null=True, verbose_name='Адрес отдела')
+    validity_period = models.ForeignKey(RepresentativeOfTheDepartmentAtValidityPeriod, on_delete=models.CASCADE, null=True,
+                                        verbose_name='Период действия представителя отдела (лесничества) организации')
+
+    def __str__(self):
+        a = str(self.second_name.__str__()) + ' ' + str(self.first_name.__str__()) + ' '\
+        + str(self.patronymic.__str__()) + ' ' + str(self.validity_period.__str__())
+
+        return a
+
+    class Meta:
+        ordering = ['id']
+        verbose_name = 'Представитель отдела (лесничества) организации'
+        verbose_name_plural = 'Представители отделов (лесничеств) организаций'
+
+
+class Position(models.Model):
+    title = models.TextField(null=True, verbose_name='Название должности')
+    representative_of_the_department_at = models.ManyToManyField(RepresentativeOfTheDepartmentAt, blank=True,
+                                        verbose_name='Представитель отдела (лесничества)')
+
+    def __str__(self):
+        a = str(self.title.__str__())
+
+        return a
+
+    class Meta:
+        ordering = ['id']
+        verbose_name = 'Должность представителя отдела'
+        verbose_name_plural = 'Должности педставителей отделов'

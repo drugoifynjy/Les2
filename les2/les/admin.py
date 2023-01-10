@@ -4,9 +4,7 @@ from .models import *
 
 admin.site.register(FormOfTheCabin)
 admin.site.register(TypeOfCabin)
-
 admin.site.register(BankDetail)
-
 admin.site.register(DetailsOfTheOrganization)
 admin.site.register(OrganizationValidityPeriod)
 admin.site.register(BankDetailValidityPeriod)
@@ -20,3 +18,6 @@ admin.site.register(LocalityType)
 admin.site.register(Organization)
 admin.site.register(Forestry)
 admin.site.register(DepartmentAddress)
+admin.site.register(RepresentativeOfTheDepartmentAtValidityPeriod)
+admin.site.register(RepresentativeOfTheDepartmentAt)
+admin.site.register(Position)
