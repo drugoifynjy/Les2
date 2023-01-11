@@ -41,8 +41,7 @@ class TreeSpecies(models.Model):
         verbose_name_plural = 'Породы деревьев'
 
 
-class OrganizationValidityPeriod(ValidityPeriod, models.Model):
-    pass
+class OrganizationValidityPeriod(ValidityPeriod):
 
     def __str__(self):
         a = 'Период действия организации ' + str(self.start_date.__str__()) + ' ' + str(self.end_date.__str__())
@@ -71,7 +70,6 @@ class Organization(models.Model):
 
 
 class DetailsOfTheOrganizationValidityPeriod(ValidityPeriod):
-    pass
 
     def __str__(self):
         a = 'Период действия реквизитов организации ' + str(self.start_date.__str__()) + ' ' + \
@@ -108,7 +106,6 @@ class DetailsOfTheOrganization(models.Model):
 
 
 class BankDetailValidityPeriod(ValidityPeriod):
-    pass
 
     def __str__(self):
         if self.end_date:
@@ -147,7 +144,6 @@ class BankDetail(models.Model):
 
 
 class OrganizationAddressValidityPeriod(ValidityPeriod):
-    pass
 
     def __str__(self):
         if self.end_date:
@@ -163,7 +159,7 @@ class OrganizationAddressValidityPeriod(ValidityPeriod):
         verbose_name_plural = 'Периоды действия адресов организаций'
 
 
-class OrganizationAddress(Address, models.Model):
+class OrganizationAddress(Address):
     organization = models.ForeignKey('Organization', on_delete=models.CASCADE, null=True,
                                      verbose_name='Организация')
     validity_period = models.ForeignKey(OrganizationAddressValidityPeriod, on_delete=models.CASCADE, null=True,
@@ -182,7 +178,6 @@ class OrganizationAddress(Address, models.Model):
 
 
 class ForestryValidityPeriod(ValidityPeriod):
-    pass
 
     def __str__(self):
         if self.end_date:
@@ -219,7 +214,6 @@ class Forestry(models.Model):
 
 
 class DepartmentAddressValidityPeriod(ValidityPeriod):
-    pass
 
     def __str__(self):
         if self.end_date:
@@ -235,7 +229,7 @@ class DepartmentAddressValidityPeriod(ValidityPeriod):
         verbose_name_plural = 'Периоды действия адресов отделов (лесничеств)'
 
 
-class DepartmentAddress(Address, models.Model):
+class DepartmentAddress(Address):
     forestry = models.ForeignKey('Forestry', on_delete=models.CASCADE, null=True, verbose_name='Отдел (лесничество)')
     validity_period = models.ForeignKey(DepartmentAddressValidityPeriod, on_delete=models.CASCADE, null=True,
                                         verbose_name='Период действия адреса отдела (лесничества) организации')
@@ -253,7 +247,6 @@ class DepartmentAddress(Address, models.Model):
 
 
 class RepresentativeOfTheDepartmentAtValidityPeriod(ValidityPeriod):
-    pass
 
     def __str__(self):
         if self.end_date:
@@ -269,7 +262,7 @@ class RepresentativeOfTheDepartmentAtValidityPeriod(ValidityPeriod):
         verbose_name_plural = 'Периоды действия представителей отделов по адресу'
 
 
-class RepresentativeOfTheDepartmentAt(PersonAbstr, models.Model):
+class RepresentativeOfTheDepartmentAt(PersonAbstr):
     department_address = models.ForeignKey(DepartmentAddress, on_delete=models.CASCADE, null=True, verbose_name='Адрес отдела')
     validity_period = models.ForeignKey(RepresentativeOfTheDepartmentAtValidityPeriod, on_delete=models.CASCADE, null=True,
                                         verbose_name='Период действия представителя отдела (лесничества) организации')
@@ -303,7 +296,6 @@ class Position(models.Model):
 
 
 class PowerOfAttorneyOfTheRepresentativeValidityPeriod(ValidityPeriod):
-    pass
 
     def __str__(self):
         if self.end_date:
