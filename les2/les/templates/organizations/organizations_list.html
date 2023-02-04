@@ -1,0 +1,53 @@
+{% extends 'les/main_menu.html' %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <p class="title">{{title}}</p>
+        <table>
+            <tr>
+                <th>№</th>
+                <th>Название организации</th>
+            </tr>
+            {% for organization in organizations %}
+                <tr>
+                    <td>
+                        <mark>{{ organization.pk }}</mark>
+                    </td>
+                    <td>
+                        {{ organization.title }}
+                    </td>
+                    <td>
+                        <form action="{% url 'organization_mod' organization.pk %}">
+                            <button type="submit">Изменить</button>
+                        </form>
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </table>
+        <form action="{% url 'organization_add' %}" method="GET">
+	        <button type="submit" >Добавить</button>
+        </form>
+    <div class="clear"></div>
+    <div class="pagination">
+        <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1" class="first_last">&laquo; Первая</a>
+            <a href="?page={{ page_obj.previous_page_number }}" class="next_previous">Предыдущая</a>
+        {% endif %}
+
+        <span class="current">
+            Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="next_previous">Следующая</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="first_last">Последняя &raquo;</a>
+        {% endif %}
+        </span>
+    </div>
+
+    {% else %}
+        <p>Авторизуйтесь</p>
+    {% endif %}
+{% endblock %}

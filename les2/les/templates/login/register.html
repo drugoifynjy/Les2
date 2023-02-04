@@ -1,0 +1,23 @@
+{% extends 'les/index.html' %}
+
+{% block title %}
+{{title}}
+{% endblock %}
+
+{% block sidebar %}
+<ul class="menu">
+    <li><a href="{% url 'register' %}">Регистрация</a></li>
+    <li><a href="{% url 'login' %}">Войти</a></li>
+</ul>
+{% endblock %}
+
+{% block content %}
+
+<H1>{{title}}</H1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Регистрация</button>
+</form>
+
+{% endblock %}

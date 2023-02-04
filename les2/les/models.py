@@ -55,7 +55,7 @@ class OrganizationValidityPeriod(ValidityPeriod):
 
 
 class Organization(models.Model):
-    title = models.CharField(max_length=255, null=True, verbose_name='Организация')
+    title = models.CharField(max_length=255, null=True, verbose_name='Название')
     validity_period = models.ForeignKey(OrganizationValidityPeriod, on_delete=models.CASCADE, null=True,
                                         verbose_name='Период действия')
 

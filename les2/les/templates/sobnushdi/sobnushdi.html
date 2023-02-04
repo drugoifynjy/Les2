@@ -1,0 +1,31 @@
+{% extends 'les/index.html' %}
+
+{% block title %}
+{{title}}
+{% endblock %}
+
+{% block sidebar %}
+
+<ul id="menu" class="menu">
+             {% if request.user.is_authenticated %}
+                <li><a href="/">Назад</a></li>
+                <li><a href="/sobnushdi/persons_list/">Заявители</a></li>
+                <li><a href="">Заявления</a></li>
+                <li><a href="">Деляны</a></li>
+                <li><a href="">Договоры</a></li>
+
+             {% else %}
+
+                    <li class="last">
+                        <a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a>
+                    </li>
+
+
+             {% endif %}
+</ul>
+{% endblock %}
+
+{% block content %}
+    <div class="last">{{ user.username }} | <a href="{% url 'logout' %}">Выйти</a></div>
+    <div id="text" class="text">{{title}}</div>
+{% endblock %}

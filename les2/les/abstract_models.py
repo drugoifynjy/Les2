@@ -2,8 +2,8 @@ from django.db import models
 
 
 class ValidityPeriod(models.Model):
-    start_date = models.DateField(null=True)
-    end_date = models.DateField(null=True, blank=True)
+    start_date = models.DateField(null=True, verbose_name='Дата начала действия')
+    end_date = models.DateField(null=True, blank=True, verbose_name='Дата окончания действия')
 
     def __str__(self):
         a = str(self.start_date.__str__()) + ' ' + str(self.end_date.__str__())
@@ -48,7 +48,7 @@ class Address(models.Model):
                 a = str(self.postcode.__str__()) + ' ' + \
                     str(self.region.__str__()) + ' область ' + \
                     str(self.district.__str__()) + ' район ' + \
-                    str(self.locality_type.locality_type_sokr) + \
+                    str(self.locality_type) + \
                     str(self.locality.__str__()) + ' ул. ' + \
                     str(self.street.__str__()) + ' д. ' + \
                     str(self.house_number.__str__()) + ' кв. ' + \
@@ -65,7 +65,7 @@ class Address(models.Model):
             if self.apartment_number:
                 a = str(self.postcode.__str__()) + ' ' + \
                     str(self.region.__str__()) + ' область ' + \
-                    str(self.locality_type.locality_type_sokr) + \
+                    str(self.locality_type) + \
                     str(self.locality.__str__()) + ' ул. ' + \
                     str(self.street.__str__()) + ' д. ' + \
                     str(self.house_number.__str__()) + ' кв. ' + \
@@ -73,7 +73,7 @@ class Address(models.Model):
             else:
                 a = str(self.postcode.__str__()) + ' ' + \
                     str(self.region.__str__()) + ' область ' + \
-                    str(self.locality_type.locality_type_sokr) + \
+                    str(self.locality_type) + \
                     str(self.locality.__str__()) + ' ул. ' + \
                     str(self.street.__str__()) + ' д. ' + \
                     str(self.house_number.__str__())
