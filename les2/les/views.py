@@ -56,17 +56,56 @@ class OrganizationAdd(CreateView):
 
     def get(self, request, *args, **kwargs):
         form_add_organization = AddOrganization()
+        form_add_organization_validity_period_start = OrganizationValidityPeriodStart()
+        form_add_organization_details = AddOrganizationDetail()
+        form_add_organization_details_validity_period_start = DetailsOfTheOrganizationValidityPeriodStart()
+        form_add_bank_detail = AddBankDetail()
+        form_add_bank_detail_validity_period_start = BankDetailValidityPeriodStart()
+
         form = {'form_add_organization': form_add_organization,
+                'form_add_organization_validity_period_start': form_add_organization_validity_period_start,
+                'form_add_organization_details': form_add_organization_details,
+                'form_add_organization_details_validity_period_start': form_add_organization_details_validity_period_start,
+                'form_add_bank_detail': form_add_bank_detail,
+                'form_add_bank_detail_validity_period_start': form_add_bank_detail_validity_period_start,
                 'title': 'Добавить заявителя'}
         return render(request, self.template_name, context=form)
 
     def post(self, request, *args, **kwargs):
         form_add_organization = AddOrganization(request.POST)
+        form_add_organization_validity_period_start = OrganizationValidityPeriodStart(request.POST)
+        form_add_organization_details = AddOrganizationDetail(request.POST)
+        form_add_organization_details_validity_period_start = DetailsOfTheOrganizationValidityPeriodStart(request.POST)
+        form_add_bank_detail = AddBankDetail(request.POST)
+        form_add_bank_detail_validity_period_start = BankDetailValidityPeriodStart(request.POST)
 
         form = {'form_add_organization': form_add_organization,
+                'form_add_organization_validity_period_start': form_add_organization_validity_period_start,
+                'form_add_organization_details': form_add_organization_details,
+                'form_add_organization_details_validity_period_start': form_add_organization_details_validity_period_start,
+                'form_add_bank_detail': form_add_bank_detail,
+                'form_add_bank_detail_validity_period_start': form_add_bank_detail_validity_period_start,
                 'title': 'Добавить организацию'}
-        if form_add_organization.is_valid():
-            form_add_organization.save()
+        if form_add_organization.is_valid()\
+                and form_add_organization_details.is_valid() \
+                and form_add_organization_validity_period_start.is_valid()\
+                and form_add_organization_details_validity_period_start.is_valid()\
+                and form_add_bank_detail.is_valid()\
+                and form_add_bank_detail_validity_period_start.is_valid():
+            organization_validity_period = form_add_organization_validity_period_start.save()
+            organization = form_add_organization.save(commit=False)
+            organization.validity_period = organization_validity_period
+            organization.save()
+            organization_details = form_add_organization_details.save(commit=False)
+            organization_details_validity_period = form_add_organization_details_validity_period_start.save()
+            organization_details.validity_period = organization_details_validity_period
+            organization_details.organization = organization
+            organization_details.save()
+            bank_detail_validity_period = form_add_bank_detail_validity_period_start.save()
+            bank_detail = form_add_bank_detail.save(commit=False)
+            bank_detail.validity_period = bank_detail_validity_period
+            bank_detail.organization = organization
+            bank_detail.save()
             return redirect('organizations_list')
         return render(request, self.template_name, context=form)
 

@@ -6,10 +6,18 @@
     {% csrf_token %}
     <table>
         <tr>
-            <th>Добавить организацию</th>
+            <th colspan="5">Добавить организацию</th>
         </tr>
         <tr>
-            <td>{{ form_add_organization.as_p }}</td>
+            <th colspan="2">Название организации</th>
+            <td>{{ form_add_organization }}</td>
+            <td>{{ form_add_organization_validity_period_start }}</td>
+            <th colspan="2">Реквизиты организации</th>
+            <td>{{ form_add_organization_details }}</td>
+            <td>{{ form_add_organization_details_validity_period_start }}</td>
+            <th colspan="2">Банковские реквизиты организации</th>
+            <td>{{ form_add_bank_detail }}</td>
+
         </tr>
     </table>
 

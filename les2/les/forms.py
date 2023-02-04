@@ -15,11 +15,76 @@ class AddLocalityType(forms.ModelForm):
         fields = '__all__'
 
 
+class OrganizationValidityPeriodStart(forms.ModelForm):
+    class Meta:
+        model = OrganizationValidityPeriod
+        fields = ['start_date']
+        labels = {'start_date': 'Дата нчала действия организации', }
+        widgets = {
+            'start_date': MyDateInput, }
+
+
+class OrganizationValidityPeriodEnd(forms.ModelForm):
+    class Meta:
+        model = OrganizationValidityPeriod
+        fields = ['end_date']
+        labels = {'end_date': 'Дата окончания действия организации', }
+        widgets = {
+            'end_date': MyDateInput, }
+
+
 class AddOrganization(forms.ModelForm):
-    prefix = 'organization'
     class Meta:
         model = Organization
         fields = ['title', ]
+
+
+class DetailsOfTheOrganizationValidityPeriodStart(forms.ModelForm):
+    class Meta:
+        model = DetailsOfTheOrganizationValidityPeriod
+        fields = ['start_date']
+        labels = {'start_date': 'Дата начала действия реквизитов организации', }
+        widgets = {
+            'start_date': MyDateInput, }
+
+
+class DetailsOfTheOrganizationValidityPeriodEnd(forms.ModelForm):
+    class Meta:
+        model = DetailsOfTheOrganizationValidityPeriod
+        fields = ['end_date']
+        labels = {'end_date': 'Дата окончания действия реквизитов организации', }
+        widgets = {
+            'end_date': MyDateInput, }
+
+
+class AddOrganizationDetail(forms.ModelForm):
+    class Meta:
+        model = DetailsOfTheOrganization
+        fields = ['inn', 'kpp', 'ogrn', 'okpo', 'email']
+
+
+class BankDetailValidityPeriodStart(forms.ModelForm):
+    class Meta:
+        model = BankDetailValidityPeriod
+        fields = ['start_date']
+        labels = {'start_date': 'Дата начала действия банковских реквизитов организации', }
+        widgets = {
+            'start_date': MyDateInput, }
+
+
+class BankDetailValidityPeriodEnd(forms.ModelForm):
+    class Meta:
+        model = BankDetailValidityPeriod
+        fields = ['end_date']
+        labels = {'end_date': 'Дата начала действия банковских реквизитов организации', }
+        widgets = {
+            'end_date': MyDateInput, }
+
+
+class AddBankDetail(forms.ModelForm):
+    class Meta:
+        model = BankDetail
+        fields = ['bank_title', 'payment_account', 'corset', 'bik']
 
 
 class AddPersonPassport(forms.ModelForm):
